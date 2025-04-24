@@ -2,6 +2,23 @@
 body {
     margin: 0;
     overflow: hidden;
+    background: #000 url('/public/bg-img.png') no-repeat center fixed;
+    background-size: cover; /* Scale to fill viewport */
+    font-family: 'Courier New', Courier, monospace;
+    background-blend-mode: overlay;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    opacity: 0.15;
+    z-index: -2;
+    pointer-events: none;
 }
 
 .waitlist-container {
@@ -11,7 +28,7 @@ body {
     justify-content: center;
     min-height: calc(100vh - 80px - 10px); /* Account for footer and loading bar */
     height: calc(100vh - 10px); /* Fill viewport minus loading bar */
-    background-color: #000;
+    /* background-color: #000;  */
     font-family: 'Courier New', Courier, monospace;
     color: #0f0;
     box-sizing: border-box;
@@ -70,7 +87,8 @@ body {
     text-align: center;
     font-size: 1rem;
     z-index: 1000;
-    background: linear-gradient(to bottom, #000 0%, #111 100%); /* Subtle gradient */
+    background: transparent;
+    /* background: linear-gradient(to bottom, #000 0%, #111 100%); Subtle gradient */
     font-family: 'Courier New', Courier, monospace;
     color: #0f0;
     box-sizing: border-box;
@@ -487,11 +505,11 @@ body {
 
     .footer {
         padding: 0.3rem;
-        flex-direction: column;
+        flex-direction: row;
         gap: 0.3rem;
         font-size: 0.7rem;
         height: 60px;
-        background: linear-gradient(to bottom, #000 0%, #111 100%);
+        background: transparent;
     }
 
     .footer p,
