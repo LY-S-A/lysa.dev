@@ -12,10 +12,12 @@ const LoadingBar = ({ progress }) => {
 
 const Waitlist = () => {
     const [email, setEmail] = useState('');
+    const [solAddress, setSolAddress] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [command, setCommand] = useState('');
     const [isFormUnlocked, setIsFormUnlocked] = useState(false);
+    const [isSolAddressSubmitted, setIsSolAddressSubmitted] = useState(false);
     const [commandError, setCommandError] = useState('');
     const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState({
@@ -27,14 +29,16 @@ const Waitlist = () => {
     const [hasStarted, setHasStarted] = useState(false);
     const [startCommand, setStartCommand] = useState('');
     const [startError, setStartError] = useState('');
-    const [progress, setProgress] = useState(0); // New state for loading bar progress
-    const [emailError, setEmailError] = useState(''); // New state for email validation error
+    const [progress, setProgress] = useState(0);
+    const [emailError, setEmailError] = useState('');
+    const [solAddressError, setSolAddressError] = useState('');
 
     const correctCommand = 'join lysa';
     const correctStartCommand = 'start';
     const waitlistUrl = 'https://lysa-waitlist.com'; // Replace with your actual waitlist URL
     const shareText = 'Just joined the LYΣA waitlist! Sign up now!';
     const loadingMessages = [
+        'Validating Solana address...',
         'Validating email...',
         'Connecting to server...',
         'Adding to waitlist...',
@@ -81,7 +85,7 @@ const Waitlist = () => {
         if (startCommand.toLowerCase() === correctStartCommand) {
             setHasStarted(true);
             setStartError('');
-            setProgress(20); // Advance to 20% on successful start
+            setProgress(20);
         } else {
             setStartError('Error: Invalid command. Try "start".');
             setStartCommand('');
@@ -93,14 +97,27 @@ const Waitlist = () => {
         if (command.toLowerCase() === correctCommand) {
             setIsFormUnlocked(true);
             setCommandError('');
-            setProgress(60); // Advance to 60% on successful join lysa
+            setProgress(40);
         } else {
             setCommandError('Error: Invalid command. Try "join lysa".');
             setCommand('');
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSolAddressSubmit = (e) => {
+        e.preventDefault();
+        const solAddressRegex = /^[1-9A-HJ-NP-Za-km-z]{44}$/;
+        if (!solAddressRegex.test(solAddress)) {
+            setSolAddressError('Error: Invalid Solana address. Must be a 44-character Base58 string.');
+            return;
+        }
+        setSolAddressError('');
+        setIsSolAddressSubmitted(true);
+        setProgress(80);
+        console.log('Solana address submitted:', solAddress);
+    };
+
+    const handleEmailSubmit = (e) => {
         e.preventDefault();
         const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
         if (!emailRegex.test(email)) {
@@ -112,9 +129,11 @@ const Waitlist = () => {
         setTimeout(() => {
             setIsLoading(false);
             setShowPopup(true);
-            setProgress(100); // Advance to 100% on successful email submission
-            console.log('Email submitted:', email);
+            setProgress(100);
+            console.log('Email submitted:', email, 'Solana address:', solAddress);
             setEmail('');
+            setSolAddress(''); // Reset SOL address for next submission
+            // Removed setIsSolAddressSubmitted(false) to keep email form active
         }, 3000);
     };
 
@@ -169,7 +188,7 @@ const Waitlist = () => {
                 </div>
             ) : (
                 <>
-                    <h1 className="title">LYΣA Waitlist</h1>
+                    <h1 className="title">LYΣA Universe</h1>
                     <div className="intro-text">
                         <p>> LYΣA: The Future of AI Interaction</p>
                         <p>> Join the waitlist for our beta release and be the first to experience a revolutionary AI platform.</p>
@@ -200,9 +219,29 @@ const Waitlist = () => {
                                 [DAYS: {timeRemaining.days}] [HOURS: {timeRemaining.hours}] [MINUTES: {timeRemaining.minutes}] [SECONDS: {timeRemaining.seconds}]
                             </div>
                         </div>
+                    ) : !isSolAddressSubmitted ? (
+                        <div className="form-container">
+                            <form onSubmit={handleSolAddressSubmit} className="waitlist-form">
+                                <input
+                                    type="text"
+                                    value={solAddress}
+                                    onChange={(e) => setSolAddress(e.target.value)}
+                                    placeholder="Enter your Solana address"
+                                    className="email-input"
+                                    required
+                                />
+                                <button type="submit" className="submit-button">
+                                    Submit SOL Address
+                                </button>
+                            </form>
+                            {solAddressError && <p className="cmd-error">{solAddressError}</p>}
+                            <div className="cmd-timer">
+                                [DAYS: {timeRemaining.days}] [HOURS: {timeRemaining.hours}] [MINUTES: {timeRemaining.minutes}] [SECONDS: {timeRemaining.seconds}]
+                            </div>
+                        </div>
                     ) : (
                         <div className="form-container">
-                            <form onSubmit={handleSubmit} className="waitlist-form">
+                            <form onSubmit={handleEmailSubmit} className="waitlist-form">
                                 <input
                                     type="email"
                                     value={email}
