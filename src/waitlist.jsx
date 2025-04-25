@@ -307,10 +307,6 @@ const Waitlist = () => {
                             <FaTelegram />
                         </a>{' '}
                         |{' '}
-                        <a href="https://discord.gg/xai" target="_blank" rel="noopener noreferrer">
-                            <FaDiscord />
-                        </a>{' '}
-                        |{' '}
                         <a href="https://github.com/xai" target="_blank" rel="noopener noreferrer">
                             <FaGithub />
                         </a>
