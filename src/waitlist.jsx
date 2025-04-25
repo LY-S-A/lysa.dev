@@ -36,7 +36,7 @@ const Waitlist = () => {
 
     const correctCommand = 'join lysa';
     const correctStartCommand = 'start';
-    const waitlistUrl = 'https://lysa-waitlist.com'; // Replace with your actual frontend URL
+    const waitlistUrl = 'https://lysa-dev.vercel.app'; // Replace with your actual frontend URL
     const shareText = 'Just joined the LYΣA waitlist! Sign up now!';
     const loadingMessages = [
         'Validating Solana address...',
