@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FaXTwitter, FaGithub, FaTelegram, FaDiscord } from 'react-icons/fa6';
 import './waitlist.css';
 
@@ -35,7 +36,7 @@ const Waitlist = () => {
 
     const correctCommand = 'join lysa';
     const correctStartCommand = 'start';
-    const waitlistUrl = 'https://lysa-waitlist.com'; // Replace with your actual waitlist URL
+    const waitlistUrl = 'https://lysa-waitlist.com'; // Replace with your actual frontend URL
     const shareText = 'Just joined the LYΣA waitlist! Sign up now!';
     const loadingMessages = [
         'Validating Solana address...',
@@ -117,7 +118,7 @@ const Waitlist = () => {
         console.log('Solana address submitted:', solAddress);
     };
 
-    const handleEmailSubmit = (e) => {
+    const handleEmailSubmit = async (e) => {
         e.preventDefault();
         const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
         if (!emailRegex.test(email)) {
@@ -126,15 +127,25 @@ const Waitlist = () => {
         }
         setEmailError('');
         setIsLoading(true);
-        setTimeout(() => {
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/waitlist`,
+                { solAddress, email },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
             setIsLoading(false);
             setShowPopup(true);
             setProgress(100);
-            console.log('Email submitted:', email, 'Solana address:', solAddress);
             setEmail('');
-            setSolAddress(''); // Reset SOL address for next submission
-            // Removed setIsSolAddressSubmitted(false) to keep email form active
-        }, 3000);
+            setSolAddress('');
+            setIsSolAddressSubmitted(false); // Reset to allow new submissions
+            console.log('Waitlist submission successful:', response.data);
+        } catch (error) {
+            setIsLoading(false);
+            setEmailError(error.response?.data?.error || 'Failed to join waitlist. Please try again.');
+            console.error('Waitlist submission error:', error);
+        }
     };
 
     const closePopup = () => {
@@ -292,15 +303,15 @@ const Waitlist = () => {
                             <FaXTwitter />
                         </a>{' '}
                         |{' '}
-                        <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                        <a href="https://t.me/xai" target="_blank" rel="noopener noreferrer">
                             <FaTelegram />
                         </a>{' '}
                         |{' '}
-                        <a href="/terms" target="_blank" rel="noopener noreferrer">
+                        <a href="https://discord.gg/xai" target="_blank" rel="noopener noreferrer">
                             <FaDiscord />
                         </a>{' '}
                         |{' '}
-                        <a href="/terms" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/xai" target="_blank" rel="noopener noreferrer">
                             <FaGithub />
                         </a>
                     </p>
