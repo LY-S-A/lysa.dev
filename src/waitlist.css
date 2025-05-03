@@ -477,6 +477,71 @@ body::before {
     transition: width 0.5s ease-in-out;
 }
 
+/* waitlist.css */
+
+/* X Handle Section */
+.x-handle-section {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .x-handle-label {
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff00;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .x-handle-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .x-handle-input {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    padding: 10px;
+    width: 200px;
+    background-color: #000;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 5px;
+    outline: none;
+    cursor: default;
+  }
+  
+  .x-handle-input[readonly] {
+    opacity: 0.8;
+  }
+  
+  .follow-button {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background-color: #00ff00;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .follow-button:hover {
+    background-color: #00cc00;
+  }
+  
+  .follow-verified {
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff00;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+
 @keyframes typing {
     0% {
         width: 0;
