@@ -256,52 +256,49 @@ const Waitlist = () => {
             </div>
           ) : !isSolAddressSubmitted ? (
             <div className="form-container">
-              <div className="x-handle-section">
-                <label htmlFor="x-handle-display" className="x-handle-label">
-                  Follow us on X to proceed:
-                </label>
-                <div className="x-handle-input-group">
-                  <input
-                    id="x-handle-display"
-                    type="text"
-                    value={lysaXHandle}
-                    readOnly
-                    className="x-handle-input"
-                    title="LYΣA's X handle"
-                  />
-                  <a
-                    href={xProfileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="follow-button"
-                  >
-                    Follow
-                  </a>
+              {!isFollowVerified ? (
+                <div className="x-handle-section">
+                  <label htmlFor="x-handle-display" className="x-handle-label">
+                    Follow us on X to proceed:
+                  </label>
+                  <div className="x-handle-input-group">
+                    <input
+                      id="x-handle-display"
+                      type="text"
+                      value={lysaXHandle}
+                      readOnly
+                      className="x-handle-input"
+                      title="LYΣA's X handle"
+                    />
+                    <a
+                      href={xProfileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="follow-button"
+                    >
+                      Follow
+                    </a>
+                  </div>
+                  <p className="follow-instruction">
+                    Please follow {lysaXHandle} on X, then enter your X handle below to continue.
+                  </p>
+                  <form onSubmit={handleVerifyFollow} className="waitlist-form">
+                    <input
+                      id="x-handle"
+                      type="text"
+                      value={xHandle}
+                      onChange={(e) => setXHandle(e.target.value)}
+                      placeholder="Enter your X handle (e.g., @username)"
+                      className="email-input"
+                      required
+                    />
+                    <button type="submit" className="submit-button">
+                      Verify Follow
+                    </button>
+                  </form>
+                  {xHandleError && <p className="cmd-error">{xHandleError}</p>}
                 </div>
-                {!isFollowVerified && (
-                  <>
-                    <p className="follow-instruction">
-                      Please follow {lysaXHandle} on X, then enter your X handle below to continue.
-                    </p>
-                    <form onSubmit={handleVerifyFollow} className="waitlist-form">
-                      <input
-                        id="x-handle"
-                        type="text"
-                        value={xHandle}
-                        onChange={(e) => setXHandle(e.target.value)}
-                        placeholder="Enter your X handle (e.g., @username)"
-                        className="email-input"
-                        required
-                      />
-                      <button type="submit" className="submit-button">
-                        Verify Follow
-                      </button>
-                    </form>
-                    {xHandleError && <p className="cmd-error">{xHandleError}</p>}
-                  </>
-                )}
-              </div>
-              {isFollowVerified && (
+              ) : (
                 <div className="sol-address-section">
                   <p className="follow-verified">Thank you for following {lysaXHandle}! Enter your Solana address to continue.</p>
                   <form onSubmit={handleSolAddressSubmit} className="waitlist-form">
