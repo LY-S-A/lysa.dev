@@ -51,7 +51,7 @@ const Waitlist = () => {
   const lysaXHandle = '@exe_01ySA';
   const xProfileUrl = 'https://x.com/exe_01ySA';
 
-  const targetDate = new Date('2025-06-30T12:00:00Z').getTime();
+  const targetDate = new Date('2025-06-12T12:00:00Z').getTime();
 
   useEffect(() => {
     const updateTimer = () => {
